@@ -19,7 +19,7 @@ Run these from the repo root. If pnpm isn't installed globally, use `npx pnpm@10
 
 ```bash
 pnpm install
-pnpm dev                                   # ui in tsup watch mode + docs at http://localhost:3000
+pnpm dev                                   # ui watch + docs (:3000) + storybook (:6006)
 pnpm build                                 # turbo: builds ui first, then docs
 pnpm lint
 pnpm typecheck                             # builds ui first, because docs type-checks against dist
@@ -28,6 +28,8 @@ pnpm --filter @lab-ds/ui test
 pnpm --filter @lab-ds/ui exec vitest run src/components/Button/Button.test.tsx
 pnpm --filter @lab-ds/ui exec vitest run -t "closes through DialogClose"
 pnpm --filter @lab-ds/ui pack --dry-run    # check the tarball contents
+pnpm --filter storybook dev                # Storybook at http://localhost:6006
+pnpm --filter storybook build              # static build → apps/storybook/storybook-static
 pnpm changeset                             # record a change for the next release
 ```
 
@@ -46,7 +48,19 @@ packages/ui/
   postcss.config.mjs               # Tailwind, applied to CSS Modules by tsup and Vitest
   scripts/build-css.mjs            # writes dist/styles.css = tokens + compiled modules
 apps/docs/                         # Next.js 16 docs/playground (private, ignored by changesets)
+apps/storybook/                    # Storybook 10 (React + Vite) for checking props and states
+  .storybook/main.ts               #   Tailwind Vite plugin + alias @lab-ds/ui → packages/ui/src
+  .storybook/preview.tsx           #   imports preview.css, light/dark toolbar toggle (`.dark` on <html>)
+  stories/<Name>.stories.tsx       #   one file per component
 ```
+
+**Storybook renders the library source, not `dist`.** The Vite alias maps the bare `@lab-ds/ui` import to `packages/ui/src/index.ts`, and `@tailwindcss/vite` compiles the CSS Modules on the fly, so edits show up without a rebuild. `preview.css` mirrors the consumer setup but imports `packages/ui/src/styles/globals.css`. The built package itself is checked by `apps/docs` and the pack dry-run. Stories still import from `"@lab-ds/ui"`, like consumers do.
+
+Story conventions:
+- Write `argTypes` for `variant`/`size` by hand (the default `react-docgen` can't resolve Base UI's `Props` types), and add `onClick: fn()` so clicks show in Actions.
+- Use `play` functions (`storybook/test`) to assert behavior. They show up in the Interactions panel; there is no Vitest/Playwright story runner yet.
+- Force hover, focus-visible and active with `storybook-addon-pseudo-states` (`parameters.pseudo`). `userEvent.tab()` focuses the element but does not trigger `:focus-visible`.
+- `parameters.a11y.test` is `"error"`. Known violation: the Button `destructive` variant's text/background contrast is 4.0:1 (AA needs 4.5:1). It's inherited from frame-ds; fix it in the tokens or the module, not in stories.
 
 `apps/docs` uses `@lab-ds/ui` through `workspace:*` and resolves it via `exports`, which point at `dist/`. Library changes show up in docs only after a build, or while `pnpm dev` is running.
 

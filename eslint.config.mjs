@@ -1,10 +1,13 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import reactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
 
 export default tseslint.config(
-  { ignores: ["**/dist/**", "**/.next/**", "**/node_modules/**", "**/next-env.d.ts"] },
+  { ignores: ["**/dist/**", "**/storybook-static/**", "**/.next/**", "**/node_modules/**", "**/next-env.d.ts"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
@@ -31,4 +34,5 @@ export default tseslint.config(
       ],
     },
   },
+  storybook.configs["flat/recommended"]
 );

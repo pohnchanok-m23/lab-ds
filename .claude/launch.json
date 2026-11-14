@@ -4,8 +4,26 @@
     {
       "name": "docs",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["-y", "pnpm@10.34.9", "--filter", "docs", "dev"],
+      "runtimeArgs": [
+        "-y",
+        "pnpm@10.34.9",
+        "--filter",
+        "docs",
+        "dev"
+      ],
       "port": 3000
+    },
+    {
+      "name": "storybook",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": [
+        "-y",
+        "pnpm@10.34.9",
+        "--filter",
+        "storybook",
+        "dev"
+      ],
+      "port": 6006
     }
   ]
 }

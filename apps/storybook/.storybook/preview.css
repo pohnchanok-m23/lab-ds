@@ -1,0 +1,6 @@
+/* Mirrors the consumer setup from packages/ui/README.md, but points at the
+   library source (stories import @lab-ds/ui source via the Vite alias). */
+@import "tailwindcss";
+@import "../../../packages/ui/src/styles/globals.css";
+
+@source "../stories";
