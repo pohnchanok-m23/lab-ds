@@ -18,4 +18,4 @@ The docs app runs at http://localhost:3000.
 
 1. `pnpm changeset` to describe the change.
 2. `pnpm version-packages` to bump versions and update changelogs.
-3. `pnpm release` to build and publish to npm.
+3. `pnpm release` to build and publish to npm (planned for Week 4).

@@ -1,0 +1,10 @@
+/*
+ * BUILD-ONLY. Never shipped.
+ *
+ * Every *.module.css starts with `@reference "../../styles/reference.css";`
+ * so `@apply` can resolve Tailwind utilities, tw-animate-css animations and
+ * the design tokens while tsup compiles the modules into dist/styles.css.
+ */
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./globals.css";

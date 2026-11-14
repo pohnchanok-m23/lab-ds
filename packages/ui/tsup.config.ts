@@ -8,8 +8,13 @@ export default defineConfig({
   clean: true,
   target: "es2022",
   external: ["react", "react-dom", "react/jsx-runtime"],
-  // The whole bundle is marked as a client module so it works when imported
-  // from Next.js Server Components. Server-safe components can be split into
-  // a separate entry later if needed.
-  banner: { js: '"use client";' },
+  // Only *.module.css files are imported from TS. tsup runs them through
+  // postcss.config.mjs (Tailwind), then esbuild's local-css loader hashes the
+  // class names and emits dist/index.css. scripts/build-css.mjs then
+  // combines that file with the tokens into dist/styles.css.
+  loader: { ".css": "local-css" },
+  // No bundle-wide "use client": that would turn buttonVariants() into a client
+  // reference that Server Components cannot call. The components contain no
+  // hooks; interactivity lives in @base-ui/react, which stays external (it is a
+  // dependency) and ships its own 'use client' directives.
 });

@@ -1,0 +1,185 @@
+@reference "../../styles/reference.css";
+
+/* Keep Tailwind's layer order so `utilities` (className overrides) win. */
+@layer theme, base, components, utilities;
+
+@layer components {
+  .root {
+    @apply inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none;
+  }
+
+  .root:focus-visible {
+    @apply border-ring ring-3 ring-ring/50;
+  }
+
+  .root:active:not([aria-haspopup]) {
+    @apply translate-y-px;
+  }
+
+  .root:disabled {
+    @apply pointer-events-none opacity-50;
+  }
+
+  .root[aria-invalid="true"] {
+    @apply border-destructive ring-3 ring-destructive/20;
+  }
+
+  :global(.dark) .root[aria-invalid="true"] {
+    @apply border-destructive/50 ring-destructive/40;
+  }
+
+  .root svg {
+    @apply pointer-events-none shrink-0;
+  }
+
+  .root svg:not([class*="size-"]) {
+    @apply size-4;
+  }
+
+  /* Variants */
+
+  .default {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  .default:hover {
+    @apply bg-primary/80;
+  }
+
+  .outline {
+    @apply border-border bg-background;
+  }
+
+  .outline:hover,
+  .outline[aria-expanded="true"] {
+    @apply bg-muted text-foreground;
+  }
+
+  :global(.dark) .outline {
+    @apply border-input bg-input/30;
+  }
+
+  :global(.dark) .outline:hover {
+    @apply bg-input/50;
+  }
+
+  .secondary {
+    @apply bg-secondary text-secondary-foreground;
+  }
+
+  .secondary:hover {
+    background-color: color-mix(in oklch, var(--secondary), var(--foreground) 5%);
+  }
+
+  .secondary[aria-expanded="true"] {
+    @apply bg-secondary text-secondary-foreground;
+  }
+
+  .ghost:hover,
+  .ghost[aria-expanded="true"] {
+    @apply bg-muted text-foreground;
+  }
+
+  :global(.dark) .ghost:hover {
+    @apply bg-muted/50;
+  }
+
+  .destructive {
+    @apply bg-destructive/10 text-destructive;
+  }
+
+  .destructive:hover {
+    @apply bg-destructive/20;
+  }
+
+  .destructive:focus-visible {
+    @apply border-destructive/40 ring-destructive/20;
+  }
+
+  :global(.dark) .destructive {
+    @apply bg-destructive/20;
+  }
+
+  :global(.dark) .destructive:hover {
+    @apply bg-destructive/30;
+  }
+
+  :global(.dark) .destructive:focus-visible {
+    @apply ring-destructive/40;
+  }
+
+  .link {
+    @apply text-primary underline-offset-4;
+  }
+
+  .link:hover {
+    @apply underline;
+  }
+
+  /* Sizes */
+
+  .sizeDefault {
+    @apply h-8 gap-1.5 px-2.5;
+  }
+
+  .sizeXs {
+    @apply h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs;
+  }
+
+  .sizeSm {
+    @apply h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem];
+  }
+
+  .sizeLg {
+    @apply h-9 gap-1.5 px-2.5;
+  }
+
+  .sizeIcon {
+    @apply size-8;
+  }
+
+  .sizeIconXs {
+    @apply size-6 rounded-[min(var(--radius-md),10px)];
+  }
+
+  .sizeIconSm {
+    @apply size-7 rounded-[min(var(--radius-md),12px)];
+  }
+
+  .sizeIconLg {
+    @apply size-9;
+  }
+
+  .sizeDefault:has([data-icon="inline-start"]),
+  .sizeLg:has([data-icon="inline-start"]) {
+    @apply pl-2;
+  }
+
+  .sizeDefault:has([data-icon="inline-end"]),
+  .sizeLg:has([data-icon="inline-end"]) {
+    @apply pr-2;
+  }
+
+  .sizeXs:has([data-icon="inline-start"]),
+  .sizeSm:has([data-icon="inline-start"]) {
+    @apply pl-1.5;
+  }
+
+  .sizeXs:has([data-icon="inline-end"]),
+  .sizeSm:has([data-icon="inline-end"]) {
+    @apply pr-1.5;
+  }
+
+  .sizeXs svg:not([class*="size-"]),
+  .sizeIconXs svg:not([class*="size-"]) {
+    @apply size-3;
+  }
+
+  .sizeSm svg:not([class*="size-"]) {
+    @apply size-3.5;
+  }
+
+  [data-slot="button-group"] :is(.sizeXs, .sizeSm, .sizeIconXs, .sizeIconSm) {
+    @apply rounded-lg;
+  }
+}
